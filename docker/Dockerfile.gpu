@@ -1,5 +1,5 @@
 FROM zzc932/prompt-generator:base
-LABEL org.opencontainers.image.authors="soulteary@gmail.com"
+LABEL org.opencontainers.image.authors="zzc932@foxmail.com"
 
 RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple && \
     pip install clip_interrogator git+https://github.com/pharmapsychotic/BLIP.git@lib#egg=blip
