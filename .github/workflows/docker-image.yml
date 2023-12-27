@@ -14,8 +14,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Base Docker image
-      run: docker build -t zzc932/prompt-generator:base . -f docker/Dockerfile.base 
     - name: Build the Docker image
       run: docker build -t zzc932/prompt-generator:gpu . -f docker/Dockerfile.gpu
       
