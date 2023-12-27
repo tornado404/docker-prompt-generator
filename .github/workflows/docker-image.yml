@@ -1,0 +1,40 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Base Docker image
+      run: docker build -t zzc932/prompt-generator:base . -f docker/Dockerfile.base 
+    - name: Build the Docker image
+      run: docker build -t zzc932/prompt-generator:gpu . -f docker/Dockerfile.gpu
+      
+    - name: Docker Login
+      uses: docker/login-action@v3.0.0
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        ecr: false
+    - name: Build & Push to GitHub Package
+      uses: opspresso/action-docker@master
+      with:
+        args: --docker
+      env:
+        USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+        IMAGE_NAME: "zzc932/prompt-generator"
+        TAG_NAME: "gpu"
+        LATEST: "true"
+
+          
+              
